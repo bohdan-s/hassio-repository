@@ -1,0 +1,3 @@
+[submodule "hassio-SunGather"]
+	path = hassio-SunGather
+	url = https://github.com/bohdan-s/hassio-SunGather
