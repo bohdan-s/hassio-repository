@@ -25,10 +25,10 @@ yq -i '
   .inverter.smart_meter = strenv(SMART_METER) |
   .inverter.log_console = strenv(LOG_CONSOLE) |
   .inverter.level = strenv(LEVEL) |
-  .exports.mqtt.enabled = true |
-  .exports.mqtt.host = strenv(MQTT_HOST) |
-  .exports.mqtt.port = strenv(MQTT_PORT) |
-  .exports.mqtt.homeassistant = true
+  .exports..name[mqtt].enabled = true |
+  .exports.name[mqtt]..host = strenv(MQTT_HOST) |
+  .exports.name[mqtt]..port = strenv(MQTT_PORT) |
+  .exports.name[mqtt]..homeassistant = true
 ' /share/SunGather/config.yaml
 
 exec python3 /sungather.py -c /share/SunGather/config.yaml -l /share/SunGather/
