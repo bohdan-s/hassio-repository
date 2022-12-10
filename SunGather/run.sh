@@ -27,7 +27,7 @@ fi
 
 yq -i "
   .inverter.host = \"$INVERTER_HOST\" |
-  .inverter.scan_interval = \"$INTERVAL\" |
+  .inverter.scan_interval = $INTERVAL |
   .inverter.connection = \"$CONNECTION\" |
   .inverter.smart_meter = $SMART_METER |
   .inverter.log_console = \"$LOG_CONSOLE\" |
