@@ -27,7 +27,7 @@ options:
   connection: "modbus"
   smart_meter: True
   log_console: "INFO"
-  level: "STANDARD"
+  level: 1
 schema:
   host: str
   timeout: int(3,60)?
@@ -35,7 +35,7 @@ schema:
   connection: "list(sungrow|modbus|HTTP)"
   smart_meter: bool?
   log_console: "list(OFF|INFO|WARNING|ERROR|DEBUG)?"
-  level: "list(BASIC|STANDARD|DETAIL|ALL)?"
+  level: "list(0|1|2|3)?"
 configuration:
   host:
     name: "IP Address"
