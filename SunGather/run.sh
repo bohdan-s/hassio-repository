@@ -25,21 +25,19 @@ else
     bashio::log.info "Configured ' $MQTT_HOST ':' $MQTT_PORT ' mqtt broker."
 fi
 
-yq -i '
-  .inverter.host = strenv(INVERTER_HOST) |
-  .inverter.scan_interval = strenv(INTERVAL) |
-  .inverter.connection = strenv(CONNECTION) |
-  .inverter.smart_meter = strenv(SMART_METER) |
-  .inverter.log_console = strenv(LOG_CONSOLE) |
-  .inverter.level = strenv(LEVEL)
-  ' /share/SunGather/config.yaml
-yq -i '  
+yq -i "
+  .inverter.host = \"$INVERTER_HOST\" |
+  .inverter.scan_interval = \"$INTERVAL\" |
+  .inverter.connection = \"$CONNECTION\" |
+  .inverter.smart_meter = \"$SMART_METER\" |
+  .inverter.log_console = \"$LOG_CONSOLE\" |
+  .inverter.level = \"$LEVEL\"
+" /share/SunGather/config.yaml
+yq -i "
   (.exports[] | select(.name == "mqtt") | .enabled) = true |
-  (.exports[] | select(.name == "mqtt") | .host) = strenv(MQTT_HOST) |
-  (.exports[] | select(.name == "mqtt") | .port) = strenv(MQTT_PORT) |
+  (.exports[] | select(.name == "mqtt") | .host) = \"$MQTT_HOST\" |
+  (.exports[] | select(.name == "mqtt") | .port) = \"$MQTT_PORT\" |
   (.exports[] | select(.name == "mqtt") | .homeassistant) = true
-' /share/SunGather/config.yaml
-
-bashio::log.info $INVERTER_HOST $INTERVAL $CONNECTION $SMART_METER $LOG_CONSOLE $LEVEL $MQTT_HOST $MQTT_PORT $MQTT_USER $MQTT_PASS
+" /share/SunGather/config.yaml
 
 exec python3 /sungather.py -c /share/SunGather/config.yaml -l /share/SunGather/
