@@ -27,7 +27,7 @@ options:
   connection: "modbus"
   smart_meter: True
   log_console: "INFO"
-  level: 1
+  level: "1"
 schema:
   host: str
   timeout: int(3,60)?

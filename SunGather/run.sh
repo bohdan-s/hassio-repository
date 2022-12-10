@@ -26,17 +26,17 @@ else
 fi
 
 yq -i "
-  .inverter.host = \"$INVERTER_HOST\" |
-  .inverter.scan_interval = \"$INTERVAL\" |
-  .inverter.connection = \"$CONNECTION\" |
-  .inverter.smart_meter = \"$SMART_METER\" |
-  .inverter.log_console = \"$LOG_CONSOLE\" |
-  .inverter.level = \"$LEVEL\"
+  .inverter.host = $INVERTER_HOST |
+  .inverter.scan_interval = $INTERVAL |
+  .inverter.connection = $CONNECTION |
+  .inverter.smart_meter = $SMART_METER |
+  .inverter.log_console = $LOG_CONSOLE |
+  .inverter.level = $LEVEL
 " /share/SunGather/config.yaml
 yq -i "
   (.exports[] | select(.name == \"mqtt\") | .enabled) = true |
-  (.exports[] | select(.name == \"mqtt\") | .host) = \"$MQTT_HOST\" |
-  (.exports[] | select(.name == \"mqtt\") | .port) = \"$MQTT_PORT\" |
+  (.exports[] | select(.name == \"mqtt\") | .host) = $MQTT_HOST |
+  (.exports[] | select(.name == \"mqtt\") | .port) = $MQTT_PORT |
   (.exports[] | select(.name == \"mqtt\") | .homeassistant) = true
 " /share/SunGather/config.yaml
 
