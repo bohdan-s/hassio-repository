@@ -1,5 +1,9 @@
 #!/usr/bin/with-contenv bashio
 
+if [ ! -d /share/SunGather ]; then
+  mkdir -p /share/SunGather
+fi
+
 if [ ! -f /share/SunGather/config.yaml ]; then
     cp config-example.yaml /share/SunGather/config.yaml
 fi
