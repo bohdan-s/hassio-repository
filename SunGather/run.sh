@@ -22,7 +22,7 @@ else
     MQTT_PORT=$(bashio::services mqtt "port")
     MQTT_USER=$(bashio::services mqtt "username")
     MQTT_PASS=$(bashio::services mqtt "password")
-    bashio::log.info "Configured ' $MQTT_HOST ':' $MQTT_PORT ' mqtt broker."
+    bashio::log.info "Configured " $MQTT_HOST ":" $MQTT_PORT " mqtt broker."
 fi
 
 yq -i "
