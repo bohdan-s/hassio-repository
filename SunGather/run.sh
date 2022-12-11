@@ -14,6 +14,7 @@ CONNECTION=$(bashio::config 'connection')
 SMART_METER=$(bashio::config 'smart_meter')
 LOG_CONSOLE=$(bashio::config 'log_console')
 LEVEL=$(bashio::config 'level')
+WEBUI=$(bashio::config 'webui')
 
 if ! bashio::services.available "mqtt"; then
    bashio::exit.nok "No internal MQTT Broker found. Please install Mosquitto broker."
@@ -38,6 +39,9 @@ yq -i "
   (.exports[] | select(.name == \"mqtt\") | .host) = \"$MQTT_HOST\" |
   (.exports[] | select(.name == \"mqtt\") | .port) = $MQTT_PORT |
   (.exports[] | select(.name == \"mqtt\") | .homeassistant) = True
+" /share/SunGather/config.yaml
+yq -i "
+  (.exports[] | select(.name == \"webserver\") | .enabled) = $WEBUI
 " /share/SunGather/config.yaml
 
 exec python3 /sungather.py -c /share/SunGather/config.yaml -l /share/SunGather/
