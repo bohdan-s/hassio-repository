@@ -12,7 +12,6 @@ RUN apk add --no-cache python3-dev py3-pip g++ yq
 RUN pip install --no-cache-dir --upgrade pycryptodomex==3.11.0 -r requirements.txt
 
 COPY SunGather/SunGather/ /
-COPY SunGather/SunGather/exports/ /exports
 COPY run.sh /
 
 # Install requirements for add-on

@@ -36,7 +36,7 @@ yq -i "
 yq -i "
   (.exports[] | select(.name == \"mqtt\") | .enabled) = true |
   (.exports[] | select(.name == \"mqtt\") | .host) = \"$MQTT_HOST\" |
-  (.exports[] | select(.name == \"mqtt\") | .port) = \"$MQTT_PORT\" |
+  (.exports[] | select(.name == \"mqtt\") | .port) = $MQTT_PORT |
   (.exports[] | select(.name == \"mqtt\") | .homeassistant) = true
 " /share/SunGather/config.yaml
 
