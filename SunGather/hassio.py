@@ -61,15 +61,15 @@ class export_hassio(object):
 
             logging.info(f"{api_url}/states/{sensor_type}.sungather_{sensor_name}")
 
-            try:
-                sensor_endpoint = api_url + "/states/" + sensor_type + ".sungather_" + sensor_name
-                logging.info(f"HASSIO: Endpoint; {sensor_endpoint}; {self.headers}; {payload}")
+            sensor_url = api_url + "/states/" + sensor_type + ".sungather_" + sensor_name
+            logging.info(f"URL: {sensor_url}")
 
-                response = requests.post(url=sensor_endpoint, headers=self.headers, params=payload, timeout=3)
+            try:
+                response = requests.post(url=sensor_url, headers=self.headers, params=payload, timeout=3)
 
                 if response.status_code != requests.codes.ok:
                     logging.error(f"HASSIO: Update Failed; {response.status_code} Message; {response.text}")
-                    logging.error(f"HASSIO: Endpoint; {sensor_endpoint}; {self.headers}; {payload}")
+                    #logging.error(f"HASSIO: Endpoint; {sensor_endpoint}; {self.headers}; {payload}")
                 else:
                     logging.info("HASSIO: Sensor:" + ha_sensor.get('name') + " Updated")
             except Exception as err:
