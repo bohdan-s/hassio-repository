@@ -11,7 +11,7 @@ class export_hassio(object):
     def headers(self):
         return {
             "Content-Type: application/json",
-            "Authorization: Bearer " + {self.hassio_config['token']}
+            "Authorization: Bearer " + self.hassio_config['token']
         }
 
     def configure(self, config, inverter):
@@ -37,7 +37,6 @@ class export_hassio(object):
         return name.lower().replace(' ','_')
 
     def publish(self, inverter):
-        api_url = self.hassio_config['api_url']
         for ha_sensor in self.ha_sensors:
             payload = {}
             attributes = {}
@@ -49,27 +48,15 @@ class export_hassio(object):
 
             payload['attributes'] = attributes
 
-            sensor_type = ha_sensor.get('sensor_type')
-            sensor_name = self.cleanName(ha_sensor.get('name'))
-
-
-            logging.info(f"HASSIO: api_url; {api_url}")
-            logging.info(f"HASSIO: sensor_type; {sensor_type}")
-            logging.info(f"HASSIO: name; {sensor_name}")
-
-            logging.info(f"HASSIO: payload; {(payload)}")
-
-            logging.info(f"{api_url}/states/{sensor_type}.sungather_{sensor_name}")
-
-            sensor_url = api_url + "/states/" + sensor_type + ".sungather_" + sensor_name
-            logging.info(f"URL: {sensor_url}")
 
             try:
-                response = requests.post(url=sensor_url, headers=self.headers, params=payload, timeout=3)
+                sensor_endpoint = self.hassio_config['api_url'] + "/states/" + ha_sensor.get('sensor_type') + ".sungather_" + self.cleanName(ha_sensor.get('name'))
+                logging.debug(f"Request: {sensor_endpoint}; {self.headers}; {payload}")
+                response = requests.post(url=sensor_endpoint, headers=self.headers, params=payload, timeout=3)
 
                 if response.status_code != requests.codes.ok:
                     logging.error(f"HASSIO: Update Failed; {response.status_code} Message; {response.text}")
-                    #logging.error(f"HASSIO: Endpoint; {sensor_endpoint}; {self.headers}; {payload}")
+                    logging.error(f"HASSIO: Endpoint; {sensor_endpoint}; {self.headers}; {payload}")
                 else:
                     logging.info("HASSIO: Sensor:" + ha_sensor.get('name') + " Updated")
             except Exception as err:
