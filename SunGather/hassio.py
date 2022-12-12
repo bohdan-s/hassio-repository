@@ -42,7 +42,7 @@ class export_hassio(object):
             payload = {}
             attributes = {}
 
-            payload['state'] = inverter.getRegisterValue(ha_sensor.get('register'))
+            payload['state'] = str(inverter.getRegisterValue(ha_sensor.get('register')))
             attributes['unit_of_measurement'] = ha_sensor.get('unit_of_measurement')
             attributes['dev_class'] = ha_sensor.get('dev_class')
             attributes['state_class'] = ha_sensor.get('state_class')
