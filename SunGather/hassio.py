@@ -11,7 +11,7 @@ class export_hassio(object):
     def headers(self):
         return {
             "Content-Type: application/json",
-            "Authorization: Bearer " + self.hassio_config['token']
+            "Authorization: Bearer " + self.hassio_config['token'],
         }
 
     def configure(self, config, inverter):
@@ -47,7 +47,6 @@ class export_hassio(object):
             attributes['state_class'] = ha_sensor.get('state_class')
 
             payload['attributes'] = attributes
-
 
             try:
                 sensor_endpoint = self.hassio_config['api_url'] + "/states/" + ha_sensor.get('sensor_type') + ".sungather_" + self.cleanName(ha_sensor.get('name'))
