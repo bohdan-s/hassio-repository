@@ -10,8 +10,8 @@ class export_hassio(object):
     @property
     def headers(self):
         return {
-            "Content-Type: application/json",
-            "Authorization: Bearer " + self.hassio_config['token'],
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + self.hassio_config['token'],
         }
 
     def configure(self, config, inverter):
