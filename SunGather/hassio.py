@@ -1,3 +1,4 @@
+import json
 import logging
 import requests
 import datetime
@@ -51,7 +52,7 @@ class export_hassio(object):
             try:
                 sensor_endpoint = self.hassio_config['api_url'] + "/states/" + ha_sensor.get('sensor_type') + ".sungather_" + self.cleanName(ha_sensor.get('name'))
                 logging.debug(f"Request: {sensor_endpoint}; {self.headers}; {payload}")
-                response = requests.post(url=sensor_endpoint, headers=self.headers, params=payload, timeout=3)
+                response = requests.post(url=sensor_endpoint, headers=self.headers, params=json.dumps(payload), timeout=3)
 
                 if response.status_code != requests.codes.ok:
                     logging.error(f"HASSIO: Update Failed; {response.status_code} Message; {response.text}")
