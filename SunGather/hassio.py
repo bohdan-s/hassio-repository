@@ -62,7 +62,7 @@ class export_hassio(object):
             logging.info(f"{api_url}/states/{sensor_type}.sungather_{sensor_name}")
 
             try:
-                sensor_endpoint = f"{api_url}/states/{sensor_type}.sungather_{sensor_name}"
+                sensor_endpoint = api_url + "/states/" + sensor_type + ".sungather_" + sensor_name
                 logging.info(f"HASSIO: Endpoint; {sensor_endpoint}; {self.headers}; {payload}")
 
                 response = requests.post(url=sensor_endpoint, headers=self.headers, params=payload, timeout=3)
