@@ -48,14 +48,14 @@ class export_hassio(object):
 
             payload['attributes'] = attributes
 
-            logging.info("HASSIO: api_url;" + str(self.hassio_config['api_url']))
-            logging.info("HASSIO: sensor_type;" + str(ha_sensor.get('sensor_type')))
-            logging.info("HASSIO: name;" + str(ha_sensor.get('name')))
+            logging.info(f"HASSIO: api_url; {self.hassio_config['api_url']}")
+            logging.info(f"HASSIO: sensor_type; {ha_sensor.get('sensor_type')}")
+            logging.info(f"HASSIO: name; {ha_sensor.get('name')}")
 
-            logging.info("HASSIO: payload;" + str(payload))
+            logging.info(f"HASSIO: payload; {(payload)}")
 
             try:
-                sensor_endpoint = self.hassio_config['api_url'] + '/states/' + ha_sensor.get('sensor_type') + '.sungather_' + self.cleanName(ha_sensor.get('name'))
+                sensor_endpoint = self.hassio_config['api_url'] + "/states/" + ha_sensor.get('sensor_type') + ".sungather_" + self.cleanName(ha_sensor.get('name'))
                 logging.info(f"HASSIO: Endpoint; {sensor_endpoint}; {self.headers}; {payload}")
 
                 response = requests.post(url=sensor_endpoint, headers=self.headers, params=payload, timeout=3)
