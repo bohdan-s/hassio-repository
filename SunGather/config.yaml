@@ -12,6 +12,7 @@ url: "https://github.com/bohdan-s/SunGather"
 startup: application
 webui: "http://[HOST]:[PORT:8080]/"
 boot: auto
+homeassistant_api: true
 ports:
   8080/tcp: 8080
 ports_description:
@@ -51,10 +52,6 @@ configuration:
   smart_meter:
     name: "Smart Meter Install"
     description: "Set to true if inverter supports reading grind / house consumption (may not be needed for Hybrid models)"
-discovery:
-  - "mqtt"
-services:
-  - "mqtt:need"
 panel_icon: mdi:SolarPowerVariant
 init: false
 

@@ -34,14 +34,13 @@ yq -i "
   .inverter.log_console = \"$LOG_CONSOLE\" |
   .inverter.level = $LEVEL
 " /share/SunGather/config.yaml
+
 yq -i "
-  (.exports[] | select(.name == \"mqtt\") | .enabled) = True |
-  (.exports[] | select(.name == \"mqtt\") | .host) = \"$MQTT_HOST\" |
-  (.exports[] | select(.name == \"mqtt\") | .port) = $MQTT_PORT |
-  (.exports[] | select(.name == \"mqtt\") | .username) = \"$MQTT_USER\" |
-  (.exports[] | select(.name == \"mqtt\") | .password) = \"$MQTT_PASS\" |
-  (.exports[] | select(.name == \"mqtt\") | .homeassistant) = True
+  (.exports[] | select(.name == \"hassio\") | .enabled) = True |
+  (.exports[] | select(.name == \"hassio\") | .api_url) = \"http://supervisor/core/api\" |
+  (.exports[] | select(.name == \"hassio\") | .token) = \"$SUPERVISOR_TOKEN\"
 " /share/SunGather/config.yaml
+
 yq -i "
   (.exports[] | select(.name == \"webserver\") | .enabled) = $WEBUI
 " /share/SunGather/config.yaml
