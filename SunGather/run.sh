@@ -16,16 +16,6 @@ LOG_CONSOLE=$(bashio::config 'log_console')
 LEVEL=$(bashio::config 'level')
 WEBUI=$(bashio::config 'webui')
 
-if ! bashio::services.available "mqtt"; then
-   bashio::exit.nok "No internal MQTT Broker found. Please install Mosquitto broker."
-else
-    MQTT_HOST=$(bashio::services mqtt "host")
-    MQTT_PORT=$(bashio::services mqtt "port")
-    MQTT_USER=$(bashio::services mqtt "username")
-    MQTT_PASS=$(bashio::services mqtt "password")
-    bashio::log.info "Configured '$MQTT_HOST' mqtt broker."
-fi
-
 yq -i "
   .inverter.host = \"$INVERTER_HOST\" |
   .inverter.scan_interval = $INTERVAL |
