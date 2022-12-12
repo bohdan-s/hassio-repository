@@ -61,7 +61,7 @@ class export_hassio(object):
                 response = requests.post(url=sensor_endpoint, headers=self.headers, params=payload, timeout=3)
 
                 if response.status_code != requests.codes.ok:
-                    logging.error(f"HASSIO: Update Failed; {str(response.status_code)} Message; {str(response.text)}")
+                    logging.error(f"HASSIO: Update Failed; {response.status_code} Message; {response.text}")
                     logging.error(f"HASSIO: Endpoint; {sensor_endpoint}; {self.headers}; {payload}")
                 else:
                     logging.info("HASSIO: Sensor:" + ha_sensor.get('name') + " Updated")
