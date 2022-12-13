@@ -1,5 +1,5 @@
 name: "SunGather"
-version: "0.0.1"
+version: "0.0.2"
 slug: sungather
 description: "Extract Sungrow data from local Inverter"
 arch: 
