@@ -34,7 +34,7 @@ schema:
   host: str
   timeout: int(3,60)?
   scan_interval: int(5,600)?
-  connection: "list(sungrow|modbus|HTTP)"
+  connection: "list(sungrow|modbus|http)"
   webui: bool?
   smart_meter: bool?
   log_console: "list(OFF|INFO|WARNING|ERROR|DEBUG)?"

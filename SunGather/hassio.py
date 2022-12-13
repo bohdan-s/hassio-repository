@@ -29,7 +29,8 @@ class export_hassio(object):
             else:
                 self.ha_sensors.append(ha_sensor)
 
-        logging.info(f"HASSIO: Configured Endpoint {self.hassio_config['api_url']}, TOKEN: {self.hassio_config['token']}")
+        logging.info(f"HASSIO: Configured Endpoint {self.hassio_config['api_url']}")
+        logging.debug(f"TOKEN: {(str(self.hassio_config['token']))[0:5]}xxx")
         return True
 
     def cleanName(self, name):
@@ -45,7 +46,7 @@ class export_hassio(object):
  
             for entity in Entity_Properties:
                 if ha_sensor.get(entity): attributes[entity] = ha_sensor.get(entity)
-                elif entity == 'unique_id': attributes[entity] = inverter.client_config.get('serial_number')
+                elif entity == 'unique_id': attributes[entity] = str(inverter.getRegisterValue('serial_number'))
 
             for entity in SensorEntity_Properties:
                 if ha_sensor.get(entity): attributes[entity] = ha_sensor.get(entity)
