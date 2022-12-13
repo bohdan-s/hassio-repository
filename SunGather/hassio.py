@@ -41,7 +41,7 @@ class export_hassio(object):
             payload = {}
             attributes = {}
 
-            Entity_Properties = ["assumed_state", "attribution", "available", "device_class", "device_info", "entity_category", "entity_picture", "extra_state_attributes", "has_entity_name", "name", "should_poll", "translation_key", "unique_id"]
+            Entity_Properties = ["assumed_state", "attribution", "available", "device_class", "device_info", "entity_category", "entity_picture", "extra_state_attributes", "has_entity_name", "friendly_name", "should_poll", "translation_key", "unique_id"]
             SensorEntity_Properties = ["device_class", "last_reset", "native_value", "native_unit_of_measurement", "state_class", "suggested_unit_of_measurement", "options"]
  
             for entity in Entity_Properties:
@@ -61,11 +61,13 @@ class export_hassio(object):
                 logging.debug(f"Request: {sensor_endpoint}; {self.headers}; {payload}")
                 response = requests.post(url=sensor_endpoint, headers=self.headers, data=json.dumps(payload), timeout=3)
 
+
                 if response.status_code != requests.codes.ok:
                     logging.error(f"HASSIO: Update Failed; {response.status_code} Message; {response.text}")
                     logging.error(f"HASSIO: Endpoint; {sensor_endpoint}; {self.headers}; {payload}")
                 else:
-                    logging.info("HASSIO: Sensor:" + ha_sensor.get('name') + " Updated")
+                    logging.info(f"HASSIO: Sensor: {ha_sensor.get('name')} Updated")
+                    logging.info(f"HASSIO: Update Response; {response.status_code} Message; {response.text}")
             except Exception as err:
                 logging.error(f"HASSIO: Update Failed: Exception Error")
                 logging.error(f"{err}")
