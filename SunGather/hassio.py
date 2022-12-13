@@ -1,8 +1,6 @@
 import json
 import logging
 import requests
-import datetime
-import time
 
 class export_hassio(object):
     #def __init__(self):
@@ -42,12 +40,20 @@ class export_hassio(object):
             payload = {}
             attributes = {}
 
-            payload['state'] = str(inverter.getRegisterValue(ha_sensor.get('register')))
-            attributes['unit_of_measurement'] = ha_sensor.get('unit_of_measurement')
-            attributes['dev_class'] = ha_sensor.get('dev_class')
-            attributes['state_class'] = ha_sensor.get('state_class')
+            Entity_Properties = ["assumed_state", "attribution", "available", "device_class", "device_info", "entity_category", "entity_picture", "extra_state_attributes", "has_entity_name", "name", "should_poll", "translation_key", "unique_id"]
+            SensorEntity_Properties = ["device_class", "last_reset", "native_value", "native_unit_of_measurement", "state_class", "suggested_unit_of_measurement", "options"]
+ 
+            for entity in Entity_Properties:
+                if ha_sensor.get(entity): attributes[entity] = ha_sensor.get(entity)
+                elif entity == 'unique_id': attributes[entity] = inverter.client_config.get('serial_number')
 
+            for entity in SensorEntity_Properties:
+                if ha_sensor.get(entity): attributes[entity] = ha_sensor.get(entity)
+
+            payload['state'] = str(inverter.getRegisterValue(ha_sensor.get('register')))
             payload['attributes'] = attributes
+
+            logging.info(f"Payload: {payload}")
 
             try:
                 sensor_endpoint = self.hassio_config['api_url'] + "/states/" + ha_sensor.get('sensor_type') + ".sungather_" + self.cleanName(ha_sensor.get('name'))
