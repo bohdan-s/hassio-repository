@@ -41,12 +41,12 @@ class export_hassio(object):
             payload = {}
             attributes = {}
 
-            Entity_Properties = ["assumed_state", "attribution", "available", "device_class", "device_info", "entity_category", "entity_picture", "extra_state_attributes", "has_entity_name", "friendly_name", "should_poll", "translation_key", "unique_id"]
+            Entity_Properties = ["assumed_state", "attribution", "available", "device_class", "device_info", "entity_category", "entity_picture", "extra_state_attributes", "has_entity_name", "name", "should_poll", "translation_key", "unique_id"]
             SensorEntity_Properties = ["device_class", "last_reset", "native_value", "native_unit_of_measurement", "state_class", "suggested_unit_of_measurement", "options"]
  
             for entity in Entity_Properties:
-                if ha_sensor.get(entity): attributes[entity] = ha_sensor.get(entity)
-                elif entity == 'unique_id': attributes[entity] = inverter.getSerialNumber()
+                if ha_sensor.get(entity): payload[entity] = ha_sensor.get(entity)
+                elif entity == 'unique_id': payload[entity] = inverter.getSerialNumber()
 
             for entity in SensorEntity_Properties:
                 if ha_sensor.get(entity): attributes[entity] = ha_sensor.get(entity)
