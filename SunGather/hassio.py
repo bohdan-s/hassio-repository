@@ -46,7 +46,7 @@ class export_hassio(object):
  
             for entity in Entity_Properties:
                 if ha_sensor.get(entity): attributes[entity] = ha_sensor.get(entity)
-                elif entity == 'unique_id': attributes[entity] = inverter.getRegisterValue('serial_number')
+                elif entity == 'unique_id': attributes[entity] = inverter.client_config.get('serial_number')
 
             for entity in SensorEntity_Properties:
                 if ha_sensor.get(entity): attributes[entity] = ha_sensor.get(entity)
