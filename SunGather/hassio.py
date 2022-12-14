@@ -54,7 +54,7 @@ class export_hassio(object):
             payload['state'] = str(inverter.getRegisterValue(ha_sensor.get('register')))
             payload['attributes'] = attributes
 
-            logging.info(f"Payload: {payload}")
+            logging.info(f"Payload: {json.dumps(payload)}")
 
             try:
                 sensor_endpoint = self.hassio_config['api_url'] + "/states/" + ha_sensor.get('sensor_type') + ".sungather_" + self.cleanName(ha_sensor.get('name'))
