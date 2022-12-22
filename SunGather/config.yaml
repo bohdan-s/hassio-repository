@@ -1,5 +1,5 @@
 name: "SunGather"
-version: "0.0.2"
+version: "0.1.0"
 slug: sungather
 description: "Extract Sungrow data from local Inverter"
 arch: 
@@ -10,15 +10,13 @@ arch:
   - i386
 url: "https://github.com/bohdan-s/SunGather"
 startup: application
-webui: "http://[HOST]:[PORT:8080]/"
+ingress: true
+ingress_port: 8099
 boot: auto
-homeassistant_api: true
-ports:
-  8080/tcp: 8080
-ports_description:
-  8080/tcp: "WebUI"
-network:
-  8080/tcp: "The WebUI Port"
+discovery:
+  - "mqtt"
+services:
+  - "mqtt:need"
 map: 
   - share:rw
 options: 
@@ -26,19 +24,15 @@ options:
   timeout: 10
   scan_interval: 30
   connection: "modbus"
-  webui: True
   smart_meter: True
   log_console: "INFO"
-  level: "1"
 schema:
   host: str
   timeout: int(3,60)?
   scan_interval: int(5,600)?
   connection: "list(sungrow|modbus|http)"
-  webui: bool?
   smart_meter: bool?
   log_console: "list(OFF|INFO|WARNING|ERROR|DEBUG)?"
-  level: "list(0|1|2|3)?"
 configuration:
   host:
     name: "IP Address"
@@ -46,9 +40,6 @@ configuration:
   connection:
     name: "Connection Type"
     description: "[Required] Usually modbus, HTTP for WiNet-S Dongles, sungrow for some legacy models"
-  webui:
-    name: "Enable WebUI"
-    description: "Access the WebUI to quickly see the running config and last read registers"
   smart_meter:
     name: "Smart Meter Install"
     description: "Set to true if inverter supports reading grind / house consumption (may not be needed for Hybrid models)"

@@ -1,0 +1,77 @@
+# For full configuration options see: https://github.com/bohdan-s/SunGather/blob/main/SunGather/config-example.yaml
+inverter:
+  host: null
+  scan_interval: 30
+  connection: modbus
+  smart_meter: true
+  log_console: INFO
+  level: 1
+  # port: 502
+  # timeout: 10
+  # retries: 3
+  # model: xxxxxxx
+  # serial: xxxxxxxxxx
+exports:
+  - name: webserver
+    enabled: True
+    port: 8099
+  - name: mqtt
+    enabled: True
+    host: null
+    port: 1883
+    username: null
+    password: null
+    # topic: "SunGather/{serial_number}"
+    homeassistant: True
+    ha_sensors:
+      - name: "Daily Generation"
+        sensor_type: sensor
+        register: daily_power_yields
+        device_class: energy
+        state_class: total_increasing
+        icon: "mdi:solar-power"
+      - name: "Daily Export to Grid"
+        sensor_type: sensor
+        register: daily_export_to_grid
+        device_class: energy
+        state_class: total_increasing
+        icon: "mdi:transmission-tower-export"
+        value_template: "{{ value_json.daily_export_to_grid | round(2) }}"
+        last_reset_value_template: "{{ value_json.last_reset }}"
+      - name: "Daily Import from Grid"
+        sensor_type: sensor
+        register: daily_import_from_grid
+        device_class: energy
+        state_class: total_increasing
+        icon: "mdi:transmission-tower-import"
+        value_template: "{{ value_json.daily_import_from_grid | round(2) }}"
+        last_reset_value_template: "{{ value_json.last_reset }}"
+      - name: "Temperature"
+        sensor_type: sensor
+        register: internal_temperature
+        device_class: temperature
+        state_class: measurement
+      - name: "Power State"
+        sensor_type: binary_sensor
+        register: run_state
+        device_class: running
+        payload_on: "ON"
+        payload_off: "OFF"
+      - name: "Active Generation"
+        sensor_type: sensor
+        register: total_active_power
+        dev_class: power
+        state_class: measurement
+        icon: "mdi:solar-power"
+      - name: "Active Export to Grid"
+        sensor_type: sensor
+        register: export_to_grid
+        dev_class: power
+        state_class: measurement
+        icon: "mdi:transmission-tower-export"
+      - name: "Active Import from Grid"
+        sensor_type: sensor
+        register: import_from_grid
+        dev_class: power
+        state_class: measurement
+        icon: "mdi:transmission-tower-import"
