@@ -1,5 +1,5 @@
 name: "SunGather"
-version: "0.1.0"
+version: "0.1.1"
 slug: sungather
 description: "Extract Sungrow data from local Inverter"
 arch: 
@@ -25,24 +25,16 @@ options:
   scan_interval: 30
   connection: "modbus"
   smart_meter: True
+  custom_mqtt_server: False
   log_console: "INFO"
 schema:
   host: str
   timeout: int(3,60)?
   scan_interval: int(5,600)?
   connection: "list(sungrow|modbus|http)"
-  smart_meter: bool?
+  smart_meter: bool
+  custom_mqtt_server: bool
   log_console: "list(OFF|INFO|WARNING|ERROR|DEBUG)?"
-configuration:
-  host:
-    name: "IP Address"
-    description: "[Required] IP Address of the Inverter or Dongle"
-  connection:
-    name: "Connection Type"
-    description: "[Required] Usually modbus, HTTP for WiNet-S Dongles, sungrow for some legacy models"
-  smart_meter:
-    name: "Smart Meter Install"
-    description: "Set to true if inverter supports reading grind / house consumption (may not be needed for Hybrid models)"
 panel_icon: mdi:SolarPowerVariant
 init: false
 

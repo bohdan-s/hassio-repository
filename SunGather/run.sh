@@ -12,15 +12,29 @@ INVERTER_HOST=$(bashio::config 'host')
 INTERVAL=$(bashio::config 'scan_interval')
 CONNECTION=$(bashio::config 'connection')
 SMART_METER=$(bashio::config 'smart_meter')
+CUSTOM_MQTT_SERVER=$(bashio::config 'custom_mqtt_server')
 LOG_CONSOLE=$(bashio::config 'log_console')
 
-if ! bashio::services.available "mqtt"; then
-   bashio::exit.nok "No internal MQTT Broker found. Please install Mosquitto broker."
+if [ $CUSTOM_MQTT_SERVER = true ]; then
+   echo "Skipping auto MQTT set up, please ensure MQTT settings are configured in /share/SunGather/config.yaml"
 else
-    MQTT_HOST=$(bashio::services mqtt "host")
-    MQTT_PORT=$(bashio::services mqtt "port")
-    MQTT_USER=$(bashio::services mqtt "username")
-    MQTT_PASS=$(bashio::services mqtt "password")
+  if ! bashio::services.available "mqtt"; then
+    bashio::exit.nok "No internal MQTT Broker found. Please install Mosquitto broker."
+  else
+      MQTT_HOST=$(bashio::services mqtt "host")
+      MQTT_PORT=$(bashio::services mqtt "port")
+      MQTT_USER=$(bashio::services mqtt "username")
+      MQTT_PASS=$(bashio::services mqtt "password")
+
+      yq -i "
+        (.exports[] | select(.name == \"mqtt\") | .enabled) = True |
+        (.exports[] | select(.name == \"mqtt\") | .host) = \"$MQTT_HOST\" |
+        (.exports[] | select(.name == \"mqtt\") | .port) = $MQTT_PORT |
+        (.exports[] | select(.name == \"mqtt\") | .username) = \"$MQTT_USER\" |
+        (.exports[] | select(.name == \"mqtt\") | .password) = \"$MQTT_PASS\" |
+        (.exports[] | select(.name == \"mqtt\") | .homeassistant) = True
+      " /share/SunGather/config.yaml
+  fi
 fi
 
 yq -i "
@@ -29,15 +43,6 @@ yq -i "
   .inverter.connection = \"$CONNECTION\" |
   .inverter.smart_meter = $SMART_METER |
   .inverter.log_console = \"$LOG_CONSOLE\"
-" /share/SunGather/config.yaml
-
-yq -i "
-  (.exports[] | select(.name == \"mqtt\") | .enabled) = True |
-  (.exports[] | select(.name == \"mqtt\") | .host) = \"$MQTT_HOST\" |
-  (.exports[] | select(.name == \"mqtt\") | .port) = $MQTT_PORT |
-  (.exports[] | select(.name == \"mqtt\") | .username) = \"$MQTT_USER\" |
-  (.exports[] | select(.name == \"mqtt\") | .password) = \"$MQTT_PASS\" |
-  (.exports[] | select(.name == \"mqtt\") | .homeassistant) = True
 " /share/SunGather/config.yaml
 
 yq -i "
