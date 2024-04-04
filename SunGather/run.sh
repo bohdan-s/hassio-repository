@@ -56,4 +56,5 @@ yq -i "
   (.exports[] | select(.name == \"webserver\") | .port) = 8099
 " /share/SunGather/config.yaml
 
+source ./venv/bin/activate
 exec python3 /sungather.py -c /share/SunGather/config.yaml -l /share/SunGather/
