@@ -5,11 +5,11 @@ FROM $BUILD_FROM
 ARG BUILD_VERSION
 ARG BUILD_ARCH
 
-COPY requirements.txt ./
-RUN apk add --no-cache python3-dev py3-pip g++ yq
+COPY SunGather\requirements.txt ./
+#RUN apk add --no-cache python3-dev py3-pip g++ yq
 # pycryptodomex 3.14 currently fails to compile for arm64
-#RUN pip install --no-cache-dir --upgrade -r requirements.txt
-RUN pip install --no-cache-dir --upgrade pycryptodomex==3.11.0 -r requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
+#RUN pip install --no-cache-dir --upgrade pycryptodomex==3.11.0 -r requirements.txt
 
 COPY SunGather/SunGather/ /
 COPY config-hassio.yaml /

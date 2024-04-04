@@ -1,5 +1,5 @@
 name: "SunGather"
-version: "0.1.3"
+version: "0.1.4"
 slug: sungather
 description: "Extract Sungrow data from local Inverter"
 arch: 
@@ -37,8 +37,3 @@ schema:
   log_console: "list(OFF|INFO|WARNING|ERROR|DEBUG)?"
 panel_icon: mdi:SolarPowerVariant
 init: false
-
-
-
-
-
