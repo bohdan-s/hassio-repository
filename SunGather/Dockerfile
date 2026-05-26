@@ -1,6 +1,6 @@
-# https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
-ARG BUILD_FROM
-FROM $BUILD_FROM
+# https://developers.home-assistant.io/docs/apps/configuration/#add-on-dockerfile
+
+FROM ghcr.io/home-assistant/base:latest
 
 ARG BUILD_VERSION
 ARG BUILD_ARCH
@@ -29,5 +29,5 @@ LABEL \
     io.hass.name="SunGather" \
     io.hass.description="Extract Sungrow data from local Inverter" \
     io.hass.version=${BUILD_VERSION} \
-    io.hass.type="addon" \
+    io.hass.type="app" \
     io.hass.arch=${BUILD_ARCH}
